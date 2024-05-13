@@ -11,9 +11,9 @@ export default function Home() {
     const fetchData = async () => {
         try {
             const response = await axios.get(
-                "http://10.33.35.37/sait_project_api/mahasiswa_api.php"
+                "http://10.33.35.37/sait_project_api/mahasiswa_api"
             );
-            setData(response.data.data);
+            setData(response.data);
         } catch (error) {
             console.error("Error fetching data: ", error);
         }
@@ -31,7 +31,7 @@ export default function Home() {
         }
     };
 
-    const handleDelete = async (id) => {
+    const handleDeleteLocal = async (id) => {
         try {
             const response = await axios.delete(
                 `http://localhost:3030/sait_project_api/mahasiswa_api/${id}`
@@ -47,6 +47,29 @@ export default function Home() {
             console.error(error);
             alert("Error deleting mahasiswa.");
         }
+    };
+
+    const handleDeleteUbuntu = async (id) => {
+        try {
+            const response = await axios.delete(
+                `http://10.33.35.37/sait_project_api/mahasiswa_api/${id}`
+            );
+
+            if (response.data.status === 1) {
+                alert("Mahasiswa Deleted Successfully.");
+                fetchData();
+            } else {
+                alert("Mahasiswa Deletion Failed.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error deleting mahasiswa.");
+        }
+    };
+
+    const handleDelete = async (id) => {
+        await handleDeleteLocal(id);
+        await handleDeleteUbuntu(id);
     };
 
     useEffect(() => {

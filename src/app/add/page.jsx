@@ -9,7 +9,7 @@ export default function Page() {
     const [alamat, setAlamat] = useState("");
     const router = useRouter();
 
-    const handleSave = async () => {
+    const handleSaveLocal = async () => {
         try {
             const response = await axios.post(
                 "http://localhost:3030/sait_project_api/mahasiswa_api",
@@ -28,6 +28,32 @@ export default function Page() {
         } catch (error) {
             alert("Error adding mahasiswa.");
         }
+    };
+
+    const handleSaveUbuntu = async () => {
+        try {
+            const response = await axios.post(
+                "http://10.33.35.37/sait_project_api/mahasiswa_api",
+                {
+                    nama,
+                    alamat,
+                }
+            );
+
+            if (response.data.status === 1) {
+                alert("Mahasiswa Added Successfully.");
+                router.push("/");
+            } else {
+                alert("Adding Mahasiswa Failed.");
+            }
+        } catch (error) {
+            alert("Error adding mahasiswa.");
+        }
+    };
+
+    const handleSave = async () => {
+        handleSaveLocal();
+        handleSaveUbuntu();
     };
 
     return (
