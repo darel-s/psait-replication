@@ -1,10 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
     const [data, setData] = useState([]);
     const [localData, setLocalData] = useState([]);
+    const router = useRouter();
 
     const fetchData = async () => {
         try {
@@ -29,20 +31,20 @@ export default function Home() {
         }
     };
 
-    const deleteMahasiswa = async (id) => {
+    const handleDelete = async (id) => {
         try {
             const response = await axios.delete(
-                `http://10.33.35.37/sait_project_api/mahasiswa_api.php?id_mhs=${id}`
+                `http://localhost:3030/sait_project_api/mahasiswa_api/${id}`
             );
+
             if (response.data.status === 1) {
-                console.log("Mahasiswa Deleted Successfully.");
                 alert("Mahasiswa Deleted Successfully.");
+                fetchLocalData();
             } else {
-                console.error("Mahasiswa Deletion Failed.");
                 alert("Mahasiswa Deletion Failed.");
             }
         } catch (error) {
-            console.error("Error deleting mahasiswa: ", error);
+            console.error(error);
             alert("Error deleting mahasiswa.");
         }
     };
@@ -58,7 +60,10 @@ export default function Home() {
                 <h1 className="text-2xl font-bold mb-4">
                     Data Mahasiswa dari Server Ubuntu
                 </h1>
-                <button className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button
+                    onClick={() => router.push("/add")}
+                    className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
                     Add New
                 </button>
                 <table className="table-auto w-full border-2 border-gray-500">
@@ -85,12 +90,17 @@ export default function Home() {
                                     {item.alamat}
                                 </td>
                                 <td className="border px-4 py-2 border-gray-500 flex justify-between space-x-2">
-                                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
+                                    <button
+                                        onClick={() =>
+                                            router.push(`/edit/${item.id_mhs}`)
+                                        }
+                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                                    >
                                         Edit
                                     </button>
                                     <button
                                         onClick={() =>
-                                            deleteMahasiswa(item.id_mhs)
+                                            handleDelete(item.id_mhs)
                                         }
                                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                                     >
@@ -105,7 +115,10 @@ export default function Home() {
                 <h1 className="text-2xl font-bold mb-4 mt-8">
                     Data Mahasiswa dari Local Mac OS
                 </h1>
-                <button className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button
+                    onClick={() => router.push("/add")}
+                    className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
                     Add New
                 </button>
                 <table className="table-auto w-full border-2 border-gray-500">
@@ -132,10 +145,20 @@ export default function Home() {
                                     {item.alamat}
                                 </td>
                                 <td className="border px-4 py-2 border-gray-500 flex justify-between space-x-2">
-                                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
+                                    <button
+                                        onClick={() =>
+                                            router.push(`/edit/${item.id_mhs}`)
+                                        }
+                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                                    >
                                         Edit
                                     </button>
-                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                                    <button
+                                        onClick={() =>
+                                            handleDelete(item.id_mhs)
+                                        }
+                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                                    >
                                         Delete
                                     </button>
                                 </td>
