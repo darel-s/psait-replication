@@ -136,7 +136,7 @@ export default function Home() {
                 </table>
 
                 <h1 className="text-2xl font-bold mb-4 mt-8">
-                    Data Mahasiswa dari Local Mac OS
+                    Data Mahasiswa dari Local MacOS
                 </h1>
                 <button
                     onClick={() => router.push("/add")}
