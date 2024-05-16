@@ -8,7 +8,7 @@ export default function Home() {
     const [localData, setLocalData] = useState([]);
     const router = useRouter();
 
-    const fetchData = async () => {
+    const fetchDataUbuntu = async () => {
         try {
             const response = await axios.get(
                 "http://10.33.35.37/sait_project_api/mahasiswa_api"
@@ -73,7 +73,7 @@ export default function Home() {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchDataUbuntu();
         fetchLocalData();
     }, []);
 
@@ -81,7 +81,7 @@ export default function Home() {
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div className="w-full max-w-md mx-auto">
                 <h1 className="text-2xl font-bold mb-4">
-                    Data Mahasiswa dari Server Ubuntu
+                    Source Ubuntu Server
                 </h1>
                 <button
                     onClick={() => router.push("/add")}
@@ -89,54 +89,57 @@ export default function Home() {
                 >
                     Add New
                 </button>
-                <table className="table-auto w-full border-2 border-gray-500">
-                    <thead className="bg-blue-200">
-                        <tr>
-                            <th className="px-4 py-2 border-r border-gray-500">
-                                Nama
-                            </th>
-                            <th className="px-4 py-2 border-r border-gray-500">
-                                Alamat
-                            </th>
-                            <th className="px-4 py-2 border-gray-500">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item) => (
-                            <tr key={item.id_mhs}>
-                                <td className="border px-4 py-2 border-gray-500">
-                                    {item.nama}
-                                </td>
-                                <td className="border px-4 py-2 border-gray-500">
-                                    {item.alamat}
-                                </td>
-                                <td className="border px-4 py-2 border-gray-500 flex justify-between space-x-2">
-                                    <button
-                                        onClick={() =>
-                                            router.push(`/edit/${item.id_mhs}`)
-                                        }
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            handleDelete(item.id_mhs)
-                                        }
-                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                            <tr>
+                                <th className="px-6 py-3" scope="col">
+                                    Nama
+                                </th>
+                                <th className="px-6 py-3" scope="col">
+                                    Alamat
+                                </th>
+                                <th className="px-6 py-3" scope="col">
+                                    Action
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {data.map((item) => (
+                                <tr
+                                    key={item.id_mhs}
+                                    className="bg-white border-b"
+                                >
+                                    <td className="px-6 py-4">{item.nama}</td>
+                                    <td className="px-6 py-4">{item.alamat}</td>
+                                    <td className="px-6 py-4 space-x-2">
+                                        <button
+                                            onClick={() =>
+                                                router.push(
+                                                    `/edit/${item.id_mhs}`
+                                                )
+                                            }
+                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(item.id_mhs)
+                                            }
+                                            className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
                 <h1 className="text-2xl font-bold mb-4 mt-8">
-                    Data Mahasiswa dari Local MacOS
+                    Source Local Windows
                 </h1>
                 <button
                     onClick={() => router.push("/add")}
@@ -144,51 +147,54 @@ export default function Home() {
                 >
                     Add New
                 </button>
-                <table className="table-auto w-full border-2 border-gray-500">
-                    <thead className="bg-blue-200">
-                        <tr>
-                            <th className="px-4 py-2 border-r border-gray-500">
-                                Nama
-                            </th>
-                            <th className="px-4 py-2 border-r border-gray-500">
-                                Alamat
-                            </th>
-                            <th className="px-4 py-2 border-gray-500">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {localData.map((item) => (
-                            <tr key={item.id_mhs}>
-                                <td className="border px-4 py-2 border-gray-500">
-                                    {item.nama}
-                                </td>
-                                <td className="border px-4 py-2 border-gray-500">
-                                    {item.alamat}
-                                </td>
-                                <td className="border px-4 py-2 border-gray-500 flex justify-between space-x-2">
-                                    <button
-                                        onClick={() =>
-                                            router.push(`/edit/${item.id_mhs}`)
-                                        }
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            handleDelete(item.id_mhs)
-                                        }
-                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                            <tr>
+                                <th className="px-6 py-3" scope="col">
+                                    Nama
+                                </th>
+                                <th className="px-6 py-3" scope="col">
+                                    Alamat
+                                </th>
+                                <th className="px-6 py-3" scope="col">
+                                    Action
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {localData.map((item) => (
+                                <tr
+                                    key={item.id_mhs}
+                                    className="bg-white border-b"
+                                >
+                                    <td className="px-6 py-4">{item.nama}</td>
+                                    <td className="px-6 py-4">{item.alamat}</td>
+                                    <td className="px-6 py-4 space-x-2">
+                                        <button
+                                            onClick={() =>
+                                                router.push(
+                                                    `/edit/${item.id_mhs}`
+                                                )
+                                            }
+                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(item.id_mhs)
+                                            }
+                                            className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     );
